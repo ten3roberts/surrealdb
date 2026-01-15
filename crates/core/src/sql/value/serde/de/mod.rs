@@ -12,8 +12,10 @@ impl Value {
 	fn into_content(self) -> Result<Content<'static>, Error> {
 		let serializer = Serializer::new();
 		match self {
+			// None represents "absent/undefined" - maps to Option::None
 			Value::None => Ok(Content::Option(None)),
-			Value::Null => Ok(Content::Option(None)),
+			// Null represents explicit null value (like JSON null) - maps to unit
+			Value::Null => Ok(Content::Unit),
 			Value::Bool(v) => Ok(Content::Bool(v)),
 			Value::Number(v) => match v {
 				sql::Number::Int(v) => Ok(Content::Number(Number::I64(v))),

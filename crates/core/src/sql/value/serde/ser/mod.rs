@@ -70,7 +70,7 @@ impl TryFrom<Content> for Value {
 
 	fn try_from(content: Content) -> Result<Self, Self::Error> {
 		match content {
-			Content::Unit => Ok(Value::None),
+			Content::Unit => Ok(Value::Null),
 			Content::Bool(v) => Ok(v.into()),
 			Content::Number(v) => match v {
 				Number::I8(v) => Ok(v.into()),
@@ -100,6 +100,7 @@ impl TryFrom<Content> for Value {
 			Content::Map(v) => v.try_into(),
 			Content::Option(v) => match v {
 				Some(v) => (*v).try_into(),
+				// Option::None represents "absent/undefined" - maps to Value::None
 				None => Ok(Value::None),
 			},
 			Content::Struct(_) => r#struct::to_value(content),

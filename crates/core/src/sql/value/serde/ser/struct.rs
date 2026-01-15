@@ -73,7 +73,7 @@ pub(super) fn to_value(content: Content) -> Result<Value, Error> {
 					.map_err(Into::into)
 			}
 			_ => match v.data {
-				Data::Unit => Ok(Value::None),
+				Data::Unit => Ok(Value::Null),
 				Data::NewType {
 					value,
 				} => value.try_into(),
